@@ -5,22 +5,39 @@ import BackButton from "../components/backButton";
 import { useState } from "react";
 import {useNavigation} from '@react-navigation/native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { useDispatch, useSelector } from 'react-redux';
+import { store } from "../redux/store";
+import { setSnackVisible, setUserLoading } from "../redux/slice/user";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../config/firebase";
+import Loading from "../components/loading";
+
+
 
 export default function SigninScreen() {
     const [email, setEmail] = useState('')
 
-    const [password, setPassword] = useState('')
+    const [password, setPassword] = useState('') 
 
     const navigation = useNavigation();
+    const dispatch = useDispatch();
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (email && password) {
-            navigation.navigate('Home')
+            try {
+                dispatch(setUserLoading(true));
+                await signInWithEmailAndPassword(auth, email, password)
+                dispatch(setUserLoading(false));
+            } catch (e) {
+                    
+            }
+            
         } else {
             
         }
-    
     }
+
+    const {userLoadig} = useSelector(state => state.user);
 
     return (
         <ScreenWrapper>
@@ -52,11 +69,18 @@ export default function SigninScreen() {
                         <Text>Forgot Password?</Text>
                     </TouchableOpacity>
                 
+
+
                 <View>
-                    <TouchableOpacity onPress = {handleSubmit} style={{backgroundColor: colors.button}} className="my-6 rounded-full p-3 shadow-sm mx-2">
-                        <Text className="text-center text-white text-lg font-bold">Sign In</Text>
-                       
-                    </TouchableOpacity>
+{
+    userLoadig ? (<Loading />) : (
+        <TouchableOpacity onPress = {handleSubmit} style={{backgroundColor: colors.button}} className="my-6 rounded-full p-3 shadow-sm mx-2">
+        <Text className="text-center text-white text-lg font-bold">Sign In</Text>
+            </TouchableOpacity>
+    )
+}
+
+                   
                 </View>
             </View>
 
