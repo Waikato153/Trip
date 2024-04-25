@@ -1,10 +1,15 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
+// Import the functions you need from the SDKs you needx
+import { getApp, getApps, initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 import { getFirestore, collection } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+
+import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
+
+// getAuth() can be used any time after initialization
 
 
 // Your web app's Firebase configuration
@@ -18,17 +23,30 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
 
+
+
+
+let app, auth;
+
+console.log(getApps().length)
+
+if (!getApps().length) {
+  try {
+    app = initializeApp(firebaseConfig);
+    auth = initializeAuth(app, {
+      persistence: getReactNativePersistence(ReactNativeAsyncStorage),
+    });
+  } catch (error) {
+    console.log("Error initializing app: " + error);
+  }
+} else {
+  app = getApp();
+  auth = getAuth(app);
+}
 
 export const db = getFirestore(app);
-
-export const auth = getAuth(app);
-
 export const  tripsRef = collection(db, 'trips')
 export const  expenseRed = collection(db, 'expense')
 
-
-export default app;
-
-
+export {app, auth}

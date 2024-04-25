@@ -13,7 +13,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../config/firebase';
 import { setUser } from '../redux/slice/user';
-import firebase from 'firebase/compat/app';
 
  
 
@@ -25,10 +24,11 @@ export default function AppNavigation() {
   const dispatch = useDispatch();
 
   onAuthStateChanged(auth , u=> {
+    console.log(u)
     dispatch(setUser(u))
   })
+  
  
-
   if (user) {
     return (
       <NavigationContainer>
