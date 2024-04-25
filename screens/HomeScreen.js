@@ -2,21 +2,48 @@ import { StatusBar } from "expo-status-bar";
 import { Text, View, TouchableOpacity, TextInput, Image, FlatList } from "react-native";
 import ScreenWrapper from "../components/screenWrapper";
 
-import { colors, items } from "../theme/index"
+import { colors } from "../theme/index"
 import randomImage from "../assets/images/randomImage";
 import EmptyList from "../components/emptyList";
-import {useNavigation} from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { signOut } from "firebase/auth";
-import { auth } from "../config/firebase";
+import { auth, tripsRef } from "../config/firebase";
+import { useSelector } from "react-redux";
+import { getDocs, query, where } from "firebase/firestore";
+import { useEffect, useState } from "react";
 
 
 export default function HomeScreen() {
+
     const navigation = useNavigation();
+
+    const { user } = useSelector(state => state.user);
+
+    const [trips, setTrips] = useState([]);
+
+    const fetchTrip = async () => {
+        const q = query(tripsRef, where('userId', '==', user.uid));
+        const querySnapshop = await getDocs(q);
+        let data = [];
+        querySnapshop.forEach(ele => {
+            data.push({ ...ele.data(), id: ele.id })
+        })
+        console.log(data)
+
+        setTrips(data);
+    }
+
+    const isFocused = useIsFocused();
+
+    useEffect(() => {
+        if (isFocused)
+            fetchTrip();
+    }, [isFocused]);
 
     const handleLogout = async () => {
         await signOut(auth);
     }
-    
+
     return (
         <ScreenWrapper className="flext-1" >
             <View className="flex-row justify-between items-center p-4">
@@ -38,21 +65,20 @@ export default function HomeScreen() {
                     </TouchableOpacity>
                 </View>
 
-
-                <View style={{height: 330}}>
-                    <FlatList 
-                    ListEmptyComponent={<EmptyList message="You haven't recorded any trips yet" />}
-                    data={items}
-                    numColumns={2}
-                    keyExtractor={item=>item.id}
-                    showsVerticalScrollIndicator={false}
-                    columnWrapperStyle={{
-                        justifyContent: 'space-between'
-                    }}
-                    className="mx-1"
-                    renderItem = {({item}) => {
-                        return  (
-                                <TouchableOpacity onPress={() => navigation.navigate('expenseTrip', {...item})}  className="bg-white p-3 rounded-2xl mb-3 shadow-sm">
+                <View style={{ height: 310 }}>
+                    <FlatList
+                        ListEmptyComponent={<EmptyList message="You haven't recorded any trips yet" />}
+                        data={trips}
+                        numColumns={2}
+                        keyExtractor={item => item.id}
+                        showsVerticalScrollIndicator={false}
+                        columnWrapperStyle={{
+                            justifyContent: 'space-'
+                        }}
+                        className="mx-1"
+                        renderItem={({ item }) => {
+                            return (
+                                <TouchableOpacity onPress={() => navigation.navigate('expenseTrip', { ...item })} className="bg-white rounded-2xl mb-3 shadow-sm p-3">
                                     <View>
                                         <Image source={randomImage()} className="w-36 h-36 mb-2" />
                                         <Text className={`${colors.heading} font-bold`}>{item.place}</Text>
@@ -60,9 +86,9 @@ export default function HomeScreen() {
                                     </View>
 
                                 </TouchableOpacity>
-                        )
+                            )
 
-                    }}
+                        }}
                     />
                 </View>
             </View>

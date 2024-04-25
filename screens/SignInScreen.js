@@ -24,12 +24,14 @@ export default function SigninScreen() {
 
     const handleSubmit = async () => {
         
+        
         if (email && password) {
+            console.log(email, password)
             dispatch(setUserLoading(true));
             try {
                 await signInWithEmailAndPassword(auth, email, password)
             } catch (e) {
-                showSnack('Email and Pass');
+                showSnack('');
             }
             dispatch(setUserLoading(false));
         } else {

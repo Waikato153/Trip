@@ -12,7 +12,8 @@ import BackButton from "../components/backButton";
 
 export default function TripExpenseScreen(props) {
     const navigation = useNavigation();
-    let params = props.route.params;
+
+    const {id, place, country} = props.route.params;
 
     return (
         <ScreenWrapper className="flext-1" >
@@ -22,8 +23,8 @@ export default function TripExpenseScreen(props) {
                         <BackButton />
                     </View>
                     <View>
-                        <Text className={`${colors.heading} text-xl font-bold text-center`}>{params.country}</Text>
-                        <Text className={`${colors.heading} text-xs text-center`}>{params.place}</Text>
+                        <Text className={`${colors.heading} text-xl font-bold text-center`}>{country}</Text>
+                        <Text className={`${colors.heading} text-xs text-center`}>{place}</Text>
                     </View>
 
                 </View>
@@ -35,7 +36,7 @@ export default function TripExpenseScreen(props) {
                 <View className="space-y-3" >
                     <View className="flex-row justify-between items-center">
                         <Text className={`${colors.heading} font-bold text-xl`}>Expense</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate('AddExpense')} className="p-2 px-3 bg-white border-gray-200 rounded-full">
+                        <TouchableOpacity onPress={() => navigation.navigate('AddExpense', {id, place, country})} className="p-2 px-3 bg-white border-gray-200 rounded-full">
                             <Text>Add Expense</Text>
                         </TouchableOpacity> 
                     </View>

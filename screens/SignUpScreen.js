@@ -6,11 +6,12 @@ import { useState } from "react";
 import { useNavigation } from '@react-navigation/native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { store } from "../redux/store";
-import { setSnackVisible } from "../redux/slice/user";
+import { setSnackVisible, setUserLoading } from "../redux/slice/user";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/firebase";
 import SnackCommon, { showSnack } from "../components/snackBar";
-
+import { useDispatch, useSelector } from 'react-redux';
+import Loading from "../components/loading";
 
 export default function SignUpScreen() {
     const [email, setEmail] = useState('')
@@ -18,14 +19,23 @@ export default function SignUpScreen() {
     const [password, setPassword] = useState('')
 
     const navigation = useNavigation();
+    const dispatch = useDispatch();
+    const userLoadig = useSelector(state => state.user.userLoading);
 
     const handleSubmit = async () => {
         if (email && password) {
-            await createUserWithEmailAndPassword(auth, email, password)
-            navigation.navigate('Home')
+            //console.log(email, password)
+            dispatch(setUserLoading(true));
+            try {
+                await createUserWithEmailAndPassword(auth, email, password)
+            } catch (e) {
+                showSnack('System Error!');
+            }
+            dispatch(setUserLoading(false));
         } else {
             showSnack();
         }
+
     }
 
     return (
@@ -61,10 +71,19 @@ export default function SignUpScreen() {
                     </TouchableOpacity>
 
                     <View>
-                        <TouchableOpacity onPress={handleSubmit} style={{ backgroundColor: colors.button }} className="my-6 rounded-full p-3 shadow-sm mx-2">
-                            <Text className="text-center text-white text-lg font-bold">Sign Up</Text>
 
-                        </TouchableOpacity>
+                        {
+                            userLoadig ? (<Loading />) : (
+                                <TouchableOpacity onPress={handleSubmit} style={{ backgroundColor: colors.button }} className="my-6 rounded-full p-3 shadow-sm mx-2">
+                                    <Text className="text-center text-white text-lg font-bold">Sign Up</Text>
+
+                                </TouchableOpacity>
+                            )
+                        }
+
+
+
+
                     </View>
                 </View>
 
