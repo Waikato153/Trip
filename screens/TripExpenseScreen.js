@@ -5,15 +5,43 @@ import ScreenWrapper from "../components/screenWrapper";
 import { colors, items, categoryBG,itemsExpense} from "../theme/index"
 import randomImage from "../assets/images/randomImage";
 import EmptyList from "../components/emptyList";
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import ExpenseCard from "../components/ExpenseCard";
 import BackButton from "../components/backButton";
+import { expenseRef } from "../config/firebase";
+import { useEffect, useState } from "react";
+import { getDocs, query, where } from "firebase/firestore";
 
 
 export default function TripExpenseScreen(props) {
     const navigation = useNavigation();
 
     const {id, place, country} = props.route.params;
+
+    const [expense, setExpense] = useState([]);
+
+    const fetchTrip = async () => {
+        const q = query(expenseRef, where('tripId', '==', id));
+        const querySnapshop = await getDocs(q);
+        let data = [];
+        querySnapshop.forEach(ele => {
+            data.push({ ...ele.data(), id: ele.id })
+        })
+        console.log(data)
+
+        setExpense(data);
+    }
+
+    const isFocused = useIsFocused();
+
+    useEffect(() => {
+        if (isFocused)
+            fetchTrip();
+    }, [isFocused]);
+
+
+
+
 
     return (
         <ScreenWrapper className="flext-1" >
@@ -45,7 +73,7 @@ export default function TripExpenseScreen(props) {
                     <View style={{ height: 330 }}>
                         <FlatList
                             ListEmptyComponent={<EmptyList message="You haven't recorded any expense yet" />}
-                            data={itemsExpense}
+                            data={expense}
                             keyExtractor={item => item.id}
                             showsVerticalScrollIndicator={false}
                             className="mx-1"

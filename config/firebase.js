@@ -47,6 +47,6 @@ if (!getApps().length) {
 
 export const db = getFirestore(app);
 export const  tripsRef = collection(db, 'trips')
-export const  expenseRed = collection(db, 'expense')
+export const  expenseRef = collection(db, 'expense')
 
 export {app, auth}

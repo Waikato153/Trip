@@ -5,8 +5,7 @@ import BackButton from "../components/backButton";
 import { useState } from "react";
 import { useNavigation } from '@react-navigation/native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { store } from "../redux/store";
-import { setSnackVisible, setUserLoading } from "../redux/slice/user";
+import { setUserLoading } from "../redux/slice/user";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/firebase";
 import SnackCommon, { showSnack } from "../components/snackBar";
@@ -53,7 +52,6 @@ export default function SignUpScreen() {
                         </View>
                     </View>
 
-
                     <View className="flex-row justify-center my-3 mt-5">
                         <Image className="h-72 w-72" source={require('../assets/images/login.png')}></Image>
                     </View>
@@ -71,7 +69,6 @@ export default function SignUpScreen() {
                     </TouchableOpacity>
 
                     <View>
-
                         {
                             userLoadig ? (<Loading />) : (
                                 <TouchableOpacity onPress={handleSubmit} style={{ backgroundColor: colors.button }} className="my-6 rounded-full p-3 shadow-sm mx-2">
@@ -80,13 +77,8 @@ export default function SignUpScreen() {
                                 </TouchableOpacity>
                             )
                         }
-
-
-
-
                     </View>
                 </View>
-
             </KeyboardAwareScrollView>
 
         </ScreenWrapper>

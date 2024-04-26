@@ -5,21 +5,47 @@ import BackButton from "../components/backButton";
 import { useState } from "react";
 import { useNavigation } from '@react-navigation/native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { showSnack } from "../components/snackBar";
+import { addDoc } from "firebase/firestore";
+import { expenseRef } from "../config/firebase";
+import Loading from "../components/loading";
 
-export default function AddExpenseScreen() {
+export default function AddExpenseScreen(props) {
+
+    let { id } = props.route.params;
 
     const [title, setTitle] = useState('')
-
     const [amount, setAmount] = useState('')
     const [category, setCategory] = useState('')
+    const [loading, setLoading] = useState(false);
 
     const navigation = useNavigation();
 
-    const handleExpense = () => {
+    const handleExpense = async () => {
+        
         if (title && amount && category) {
-            navigation.navigate('Home')
-        } else {
 
+            setLoading(true);
+            try {
+                let doc = await addDoc(expenseRef, {
+                    title,
+                    amount,
+                    category,
+                    tripId: id
+
+                });
+                console.log(doc)
+                if (doc && doc.id) {
+                    navigation.goBack();
+                }
+            } catch (e) {
+                console.log(e)
+            }
+
+
+
+        } else {
+            showSnack("please fill all the fields")
         }
     }
     return (
@@ -50,31 +76,34 @@ export default function AddExpenseScreen() {
                         <Text className="text-lg font-bold">Category</Text>
                         <View className="flex-row flex-wrap items-center"
                         >{
-                        
-                            Object.keys(categoryBG).map(key => {
-                               let bgColor = 'bg-white';
-                               key = key.charAt(0).toUpperCase() + key.substring(1);
 
-                               if (key == category) bgColor = "bg-green-200";
-                               console.log(key);
+                                Object.keys(categoryBG).map((key, i) => {
+                                    let bgColor = 'bg-white';
+                                    key = key.charAt(0).toUpperCase() + key.substring(1);
 
-                               return <TouchableOpacity onPress={()=>{setCategory(key)}} className={`${bgColor} rounded-full px-4 p-3 mb-2 mr-2`}>
-                                <Text>{key}</Text>
-                               </TouchableOpacity>
-                               
-                            })
-                        
-                        
-                        }
+                                    if (key == category) bgColor = "bg-green-200";
+                                    console.log(key, i);
+
+                                    return <TouchableOpacity key={i} onPress={() => { setCategory(key) }} className={`${bgColor} rounded-full px-4 p-3 mb-2 mr-2`}>
+                                        <Text>{key}</Text>
+                                    </TouchableOpacity>
+
+                                })
+
+                            }
 
                         </View>
                     </View>
 
                     <View>
-                        <TouchableOpacity onPress={handleExpense} style={{ backgroundColor: colors.button }} className="my-6 rounded-full p-3 shadow-sm mx-2">
+                    {
+                            loading ? (<Loading />) : (
+                                <TouchableOpacity onPress={handleExpense} style={{ backgroundColor: colors.button }} className="my-6 rounded-full p-3 shadow-sm mx-2">
                             <Text className="text-center text-white text-lg font-bold">Add Expense</Text>
 
                         </TouchableOpacity>
+                            )
+                        }
                     </View>
                 </View>
 

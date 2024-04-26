@@ -7,12 +7,13 @@ import AddExpenseScreen from '../screens/AddExpenseScreen';
 import AddTrips from '../screens/AddTripsScreen';
 import TripExpenseScreen from '../screens/TripExpenseScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
-import SigninScreen from '../screens/SignInScreen';
-import SignupScreen from '../screens/SignUpScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../config/firebase';
+import SignUpScreen from '../screens/SignUpScreen';
 import { setUser } from '../redux/slice/user';
+import SigninScreen from '../screens/SignInScreen';
+
 
  
 
@@ -24,11 +25,11 @@ export default function AppNavigation() {
   const dispatch = useDispatch();
 
   onAuthStateChanged(auth , u=> {
+    console.log('user')
     console.log(u)
     dispatch(setUser(u))
   })
   
- 
   if (user) {
     return (
       <NavigationContainer>
@@ -47,7 +48,7 @@ export default function AppNavigation() {
         <Stack.Navigator initialRouteName='Welcome'>
           <Stack.Screen name="Welcome" options={{headerShown: false}} component={WelcomeScreen} />
           <Stack.Screen name="signin" options={{headerShown: false, presentation: "modal"}} component={SigninScreen} />
-          <Stack.Screen name="signup" options={{headerShown: false, presentation: "modal"}} component={SignupScreen} />
+          <Stack.Screen name="signup" options={{headerShown: false, presentation: "modal"}} component={SignUpScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     );

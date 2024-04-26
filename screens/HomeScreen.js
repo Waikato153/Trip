@@ -44,6 +44,8 @@ export default function HomeScreen() {
         await signOut(auth);
     }
 
+
+
     return (
         <ScreenWrapper className="flext-1" >
             <View className="flex-row justify-between items-center p-4">
@@ -73,12 +75,14 @@ export default function HomeScreen() {
                         keyExtractor={item => item.id}
                         showsVerticalScrollIndicator={false}
                         columnWrapperStyle={{
-                            justifyContent: 'space-'
+                            justifyContent: 'space-between',
+        
+                
                         }}
                         className="mx-1"
                         renderItem={({ item }) => {
                             return (
-                                <TouchableOpacity onPress={() => navigation.navigate('expenseTrip', { ...item })} className="bg-white rounded-2xl mb-3 shadow-sm p-3">
+                                <TouchableOpacity onPress={() => navigation.navigate('expenseTrip', { ...item })} className="bg-white rounded-2xl mb-3 shadow-sm px-4">
                                     <View>
                                         <Image source={randomImage()} className="w-36 h-36 mb-2" />
                                         <Text className={`${colors.heading} font-bold`}>{item.place}</Text>
@@ -87,7 +91,6 @@ export default function HomeScreen() {
 
                                 </TouchableOpacity>
                             )
-
                         }}
                     />
                 </View>
