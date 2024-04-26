@@ -25,11 +25,12 @@ export default function AppNavigation() {
   const dispatch = useDispatch();
 
   onAuthStateChanged(auth , u=> {
-    console.log('user')
+  
     console.log(u)
     dispatch(setUser(u))
   })
   
+ 
   if (user) {
     return (
       <NavigationContainer>

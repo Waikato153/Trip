@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>88004658517-f42rdraqorvidp3gqvc1ddn0u3sjm3c9.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.88004658517-f42rdraqorvidp3gqvc1ddn0u3sjm3c9</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBrcrVQRSzMAP6j9wgtgqZAZn8LFWUv4XE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>88004658517</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.kick7spring.expd</string>
+	<key>PROJECT_ID</key>
+	<string>extensify-798bc</string>
+	<key>STORAGE_BUCKET</key>
+	<string>extensify-798bc.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:88004658517:ios:c0a92bfd5d61d4a14bdbdc</string>
+	<key>DATABASE_URL</key>
+	<string>https://extensify-798bc-default-rtdb.asia-southeast1.firebasedatabase.app</string>
+</dict>
+</plist>

@@ -16,9 +16,10 @@ import { useState } from "react";
 import { isErrorWithCode } from '@react-native-google-signin/google-signin';
 import { auth } from "../config/firebase";
 import { GoogleAuthProvider, signInWithCredential } from "firebase/auth";
-GoogleSignin.configure({
-    webClientId: '88004658517-m41shkbc3gsflrdl7iljoes0ls3t2se0.apps.googleusercontent.com', // client ID of type WEB for your server. Required to get the `idToken` on the user object, and for offline access.
-});
+import { webConfig } from "../config/google";
+
+
+GoogleSignin.configure(webConfig);
 
 
 

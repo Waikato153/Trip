@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "88004658517",
+    "firebase_url": "https://extensify-798bc-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "extensify-798bc",
+    "storage_bucket": "extensify-798bc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:88004658517:android:bae40498470428144bdbdc",
+        "android_client_info": {
+          "package_name": "com.kick7spring.expd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "88004658517-m41shkbc3gsflrdl7iljoes0ls3t2se0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbMJ-k8zhmq4glCev-2u3OSzl3xVyMosE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "88004658517-m41shkbc3gsflrdl7iljoes0ls3t2se0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

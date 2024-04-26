@@ -64,9 +64,6 @@ export default function SignUpScreen() {
                         <TextInput value={password} secureTextEntry onChangeText={value => { setPassword(value) }} className='p-4 bg-white rounded-full mb-3' />
 
                     </View>
-                    <TouchableOpacity className="flex-row justify-end">
-                        <Text>Forgot Password?</Text>
-                    </TouchableOpacity>
 
                     <View>
                         {
