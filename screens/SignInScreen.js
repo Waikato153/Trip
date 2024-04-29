@@ -29,8 +29,10 @@ export default function SigninScreen() {
             console.log(email, password)
             dispatch(setUserLoading(true));
             try {
+                
                 await signInWithEmailAndPassword(auth, email, password)
             } catch (e) {
+                console.log(e)
                 showSnack('');
             }
             dispatch(setUserLoading(false));

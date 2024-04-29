@@ -26,7 +26,7 @@ export default function AppNavigation() {
 
   onAuthStateChanged(auth , u=> {
   
-    console.log(u)
+    //console.log(u)
     dispatch(setUser(u))
   })
   

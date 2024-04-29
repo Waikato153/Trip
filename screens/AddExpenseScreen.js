@@ -9,8 +9,10 @@ import { showSnack } from "../components/snackBar";
 import { addDoc } from "firebase/firestore";
 import { expenseRef } from "../config/firebase";
 import Loading from "../components/loading";
+import { Toast } from "react-native-toast-notifications";
 
 export default function AddExpenseScreen(props) {
+
 
     let { id } = props.route.params;
 
@@ -36,7 +38,17 @@ export default function AddExpenseScreen(props) {
                 });
                 console.log(doc)
                 if (doc && doc.id) {
-                    navigation.goBack();
+                    setLoading(false);
+                    Toast.show("Record added successfully", {
+                        type: "success",
+                        placement: "top",
+                        duration: 2000,
+                        animationType: "zoom-in",
+                       
+                    });
+                    setTimeout(() => {
+                        navigation.goBack();
+                    }, 2100);
                 }
             } catch (e) {
                 console.log(e)

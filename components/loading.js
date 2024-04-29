@@ -5,7 +5,7 @@ import { colors } from "../theme";
 export default function Loading() {
 
     return (
-        <View className="flex-row justify-center py-8">
+        <View className="flex-row justify-center">
             <ActivityIndicator size="large" color={colors.button}></ActivityIndicator>
         </View>
     )
